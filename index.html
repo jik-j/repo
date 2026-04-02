@@ -1,13 +1,418 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VANGA ADALAM | Kalugumalai's Ultimate Nightlife</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-purple: #bc13fe;
+            --dark-bg: #050505;
+            --card-bg: #111;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0,0,0,0.95);
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--neon-purple);
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover { color: var(--neon-purple); }
+
+        .profile-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            border: 1px solid var(--neon-purple); 
+            padding: 5px 15px; 
+            border-radius: 50px; 
+            animation: fadeIn 0.5s;
+            position: relative;
+            margin-top: 5px;
+        }
+        .profile-icon { width: 30px; height: 30px; background: var(--neon-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black; }
+
+        .crown {
+            position: absolute;
+            top: -18px;
+            right: 12px;
+            font-size: 20px;
+        }
+        .silver-crown { color: #C0C0C0; text-shadow: 0 0 10px #C0C0C0; }
+        .gold-crown { color: #FFD700; text-shadow: 0 0 10px #FFD700; }
+
+        header {
+            min-height: 100vh;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1514525253361-b83f859b21c0?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .video-box {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 40px;
+            border: 2px solid var(--neon-purple);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.4);
+            background: #000;
+        }
+
+        h1 {
+            font-size: clamp(40px, 8vw, 70px);
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 0 0 20px var(--neon-purple);
+        }
+        
+        .img-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 1100px;
+            flex-wrap: wrap;
+        }
+
+        .club-img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid #333;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            background: #222;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .club-img:hover {
+            transform: scale(1.05);
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 25px var(--neon-purple);
+        }
+
+        .btn-neon {
+            margin-top: 40px;
+            padding: 15px 45px;
+            background-color: var(--neon-purple);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px var(--neon-purple);
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-neon:hover {
+            box-shadow: 0 0 30px var(--neon-purple);
+            transform: scale(1.05);
+            color: white;
+        }
+
+        .price-card, .review-card {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            padding: 40px;
+            border-radius: 20px;
+            transition: 0.4s;
+            height: 100%;
+        }
+
+        .price-card:hover, .review-card:hover {
+            border-color: var(--neon-purple);
+            transform: translateY(-10px);
+        }
+        
+        input.form-control::placeholder {
+            color: #bbbbbb !important;
+            opacity: 1;
+        }
+
+        input.form-control {
+            background: #222;
+            border: 1px solid #333;
+            color: white;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content-custom {
+            background: #111;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--neon-purple);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 20px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Website</h1>
-    <p>This is deployed using GitHub Pages.</p>
+
+    <nav>
+        <div class="logo">Vanga Adalam</div>
+        <div id="auth-links" class="nav-links">
+            <a href="#">Home</a>
+            <a href="#membership" id="nav-membership">Membership</a>
+            <a href="adp5.html">Reviews</a>
+            <a id="login-nav" onclick="toggleOverlay('login-overlay')">Login</a>
+            <a id="signup-nav" onclick="toggleOverlay('register-overlay')" style="border: 1px solid #bc13fe; padding: 8px 15px; border-radius: 5px;">Sign Up</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="video-box">
+            <video width="100%" height="auto" controls autoplay muted loop><source src="video.mp4" type="video/mp4"></video>
+        </div>
+        <h1>THE BEAT DROPS HERE</h1>
+        <p style="margin-top: 20px; color: #ddd; letter-spacing: 4px; text-transform: uppercase;">Apro yennna oru table ahh book panni vidunga</p>
+        
+        <div class="img-grid">
+            <img src="img1.jpg" alt="Club Scene 1" class="club-img">
+            <img src="img2.jpg" alt="Club Scene 2" class="club-img">
+            <img src="img3.jpg" alt="Club Scene 3" class="club-img">
+        </div>
+
+        <a href="#membership" id="hero-join-btn" class="btn-neon">Join the Tribe</a>
+    </header>
+
+    <section id="membership" class="py-5 container text-center">
+        <h2 class="mb-5" style="letter-spacing: 3px;">MEMBERSHIP PLANS</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="price-card">
+                    <h3 style="color: var(--neon-purple);">SILVER</h3>
+                    <h2 class="my-4">₹999</h2>
+                    <ul class="list-unstyled mb-4">
+                        <li>Weekend Entry</li>
+                        <li>1 Sabari Special Drink</li>
+                        <li>General Dance Floor</li>
+                    </ul>
+                    <button class="btn-neon w-100" onclick="openPayment('Silver', 999)">Get Started</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="price-card" style="border-color: var(--neon-purple);">
+                    <h3 style="color: var(--neon-purple);">GOLD ELITE</h3>
+                    <h2 class="my-4">₹4,999</h2>
+                    <ul class="list-unstyled mb-4">
+                        <li>Express VIP Entry</li>
+                        <li>Unlimited Drinks</li>
+                        <li>Dancing Rose Reserved Spot</li>
+                    </ul>
+                    <button class="btn-neon w-100" onclick="openPayment('Gold Elite', 4999)">Go Elite</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="py-5 container text-center">
+        <h2 class="mb-5" style="letter-spacing: 3px;">CUSTOMER REVIEWS</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="review-card">
+                    <p style="color: #00ff00;">★★★★★</p>
+                    <h4 style="color: var(--neon-purple);">"Mind Blown"</h4>
+                    <p>"Ulaga pugal petra vibes! The bass was heavy and the Sabari special drink is a must-try."</p>
+                    <small>- Rahul S.</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="review-card">
+                    <p style="color: #ff4444;">★★☆☆☆</p>
+                    <h4 style="color: #ff4444;">"Too Loud!"</h4>
+                    <p>"Music is killer but my ears are still ringing. Bouncers are strict but fair."</p>
+                    <small>- Priya K.</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="review-card">
+                    <p style="color: #00ff00;">★★★★★</p>
+                    <h4 style="color: var(--neon-purple);">"Best in Town"</h4>
+                    <p>"Dancing Rose spot is the best part of the club. Elite VIP is worth every rupee."</p>
+                    <small>- Mark V.</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 container text-center">
+        <h1 style="text-transform: uppercase; letter-spacing: 8px; text-shadow: 0 0 20px var(--neon-purple);">Event Section</h1>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="review-card">
+                    <h4 style="color: var(--neon-purple);">"Today's Event!"</h4>
+                    <p>"For every couple out there there is a couple question round is organized the winning couples are awarded with a free one day elite vip pass,Dont miss this folks."</p>
+                    <small>- Club owner.</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="login-overlay" class="overlay">
+        <div class="modal-content-custom">
+            <span class="close-btn" onclick="toggleOverlay('login-overlay')">&times;</span>
+            <h2 class="text-center mb-4" style="color: var(--neon-purple);">User Login</h2>
+            <input type="text" id="login-user" class="form-control" placeholder="Username">
+            <input type="password" id="login-pass" class="form-control" placeholder="Password">
+            <button class="btn-neon w-100" onclick="validateLogin()">Login</button>
+        </div>
+    </div>
+
+    <div id="payment-overlay" class="overlay">
+        <div class="modal-content-custom">
+            <span class="close-btn" onclick="toggleOverlay('payment-overlay')">&times;</span>
+            <h2 id="pay-plan-name" style="color: var(--neon-purple);">Checkout</h2>
+            <p id="pay-amount" class="fs-4">Amount: ₹0</p>
+            <input type="text" id="input-card" class="form-control" placeholder="Enter Card Number">
+            <div class="d-flex gap-2">
+                <input type="text" class="form-control" placeholder="MM/YY">
+                <input type="text" id="input-cvv" class="form-control" placeholder="CVV">
+            </div>
+            <button class="btn-neon w-100" onclick="validatePayment()">Verify & Pay</button>
+        </div>
+    </div>
+
+    <footer class="text-center py-5" style="background: #000; border-top: 1px solid #222;">
+        <p class="small">&copy; 2026 YELLA RIGHT UHH IRUKU. VANGA ADALAM NIGHTCLUB.</p>
+        <p style="color: var(--neon-purple); font-size: 12px;">Kovil Vasal, Kalugumalai.</p>
+        <p style="color: var(--neon-purple); font-size: 12px;">-SUGAN RG _25AD430  YALINI S_25AD403  DELFIA HAZEL DEVADASS P_25AD436</p>
+    </footer>
+
+    <script>
+        let selectedPlan = ""; 
+
+        function toggleOverlay(id) {
+            const overlay = document.getElementById(id);
+            overlay.style.display = (overlay.style.display === 'flex') ? 'none' : 'flex';
+        }
+        function validateLogin() {
+            const user = document.getElementById('login-user').value;
+            const pass = document.getElementById('login-pass').value;
+
+            if (user === "sugan" && pass === "naantha") {
+                alert("Login Successful! Welcome Sugan.");
+                toggleOverlay('login-overlay');
+                
+                document.getElementById('auth-links').innerHTML = `
+                    <a href="#">Home</a>
+                    <a href="#membership" id="nav-membership">Membership</a>
+                    <div class="profile-container ms-3">
+                        <span id="profile-name" style="font-size: 13px; font-weight: bold;">Sugan</span>
+                        <div class="profile-icon">S</div>
+                    </div>
+                `;
+            } else {
+                alert("Invalid Credentials. Please try again.");
+            }
+        }
+        
+        function openPayment(plan, price) {
+            selectedPlan = plan; 
+            document.getElementById('pay-plan-name').innerText = plan + " Membership";
+            document.getElementById('pay-amount').innerText = "Total: ₹" + price;   
+            toggleOverlay('payment-overlay');
+        }
+
+        function validatePayment() {
+            const userCard = document.getElementById('input-card').value;
+            const userCVV = document.getElementById('input-cvv').value;
+
+            if (userCard === "3052 3260 8415 6134" && userCVV === "264") {
+                alert("Payment Successful! Your " + selectedPlan + " Access is activated.");
+                toggleOverlay('payment-overlay');
+                document.getElementById('membership').style.display = 'none';
+                document.getElementById('hero-join-btn').style.display = 'none';
+                const navMem = document.getElementById('nav-membership');
+                if(navMem) navMem.style.display = 'none';
+                const profileBox = document.querySelector('.profile-container');
+                if (profileBox) {
+                    const crown = document.createElement('div');
+                    crown.className = 'crown ' + (selectedPlan === 'Silver' ? 'silver-crown' : 'gold-crown');
+                    crown.innerHTML = '👑';
+                    profileBox.appendChild(crown);
+                }
+
+            } else {
+                alert("Payment Failed! Please enter the exact Card Number and CVV.");
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target.className === 'overlay') event.target.style.display = 'none';
+        }
+    </script>
 </body>
-<footer>
-    <p>-SUGAN RG _25AD430  YALINI S_25AD403  DELFIA HAZEL DEVADASS P_25AD436</p>
-</footer>
-</html> 
+</html>
